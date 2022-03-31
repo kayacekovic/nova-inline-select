@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::put('/update-field/{resourceId}', 'UpdateController@updateField');
+Route::put('/update-field/{resourceName}/{resourceId}', 'UpdateController@updateField');

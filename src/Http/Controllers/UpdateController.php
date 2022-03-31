@@ -1,18 +1,21 @@
 <?php
 
-namespace Hubertnnn\LaravelNova\Fields\DynamicSelect\Http\Controllers;
+namespace KirschbaumDevelopment\Nova\Http\Controllers;
 
-use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Routing\Controller;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 
 class UpdateController extends Controller
 {
-    public function updateField(NovaRequest $request, $resourceId)
+    public function updateField(NovaRequest $request, $resourceName, $resourceId)
     {
-        $request->findModelOrFail($resourceId)->update([
-            $request->get('attribute') => $request->get('value'),
-        ]);
+        Nova::modelInstanceForKey($resourceName)
+            ->newQueryWithoutScopes()
+            ->where('id', $resourceId)
+            ->update([
+                $request->get('attribute') => $request->get('value'),
+            ]);
 
         return response()->json(['success' => true]);
     }

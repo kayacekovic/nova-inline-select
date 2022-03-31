@@ -7,6 +7,10 @@ export default {
 
     computed: {
         displayValue() {
+            if (!this.field.value) {
+                return '—';
+            }
+
             return this.field.displayUsingLabels
                 ? _.find(this.field.options, { value: this.field.value }).label
                 : this.field.value;
@@ -21,7 +25,7 @@ export default {
             formData.append('value', this.value);
             formData.append('_method', 'PUT');
 
-            return Nova.request().post(`/nova-vendor/inline-select/update-field/${this.resourceId}`, formData)
+            return Nova.request().post(`/nova-vendor/inline-select/update-field/${this.resourceName}/${this.resourceId}`, formData)
                 .then(() => {
                     let label = _.find(this.field.options, option => option.value == this.value).label;
 

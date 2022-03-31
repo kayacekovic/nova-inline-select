@@ -17,10 +17,11 @@ export default {
         async submit() {
             let formData = new FormData();
 
-            formData.append(this.field.attribute, this.value);
+            formData.append('attribute', this.field.attribute);
+            formData.append('value', this.value);
             formData.append('_method', 'PUT');
 
-            return Nova.request().post(`/nova-api/${this.resourceName}/${this.resourceId}`, formData)
+            return Nova.request().post(`/nova-vendor/inline-select/update-field/${this.resourceId}`, formData)
                 .then(() => {
                     let label = _.find(this.field.options, option => option.value == this.value).label;
 

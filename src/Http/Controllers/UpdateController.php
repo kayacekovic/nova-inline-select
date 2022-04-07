@@ -10,12 +10,12 @@ class UpdateController extends Controller
 {
     public function updateField(NovaRequest $request, $resourceName, $resourceId)
     {
-        Nova::modelInstanceForKey($resourceName)
+        $model = Nova::modelInstanceForKey($resourceName)
             ->newQueryWithoutScopes()
-            ->where('id', $resourceId)
-            ->update([
-                $request->get('attribute') => $request->get('value'),
-            ]);
+            ->findOrFail($resourceId);
+
+        $model->{$request->get('attribute')} = $request->get('value');
+        $model->save();
 
         return response()->json(['success' => true]);
     }
